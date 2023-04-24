@@ -1,5 +1,6 @@
 import { Pressable, View, Text, StyleSheet, Platform } from "react-native";
-function FoodCategoryGrid({ title, color }) {
+
+function FoodCategoryGrid({ title, color, onPress }) {
   return (
     <View style={styles.itemGrid}>
       <Pressable
@@ -8,6 +9,7 @@ function FoodCategoryGrid({ title, color }) {
           styles.button,
           pressed ? styles.buttonpressed : null,
         ]}
+        onPress={onPress}
       >
         <View style={[styles.innerContainer, { backgroundColor: color }]}>
           <Text style={styles.title}>{title}</Text>

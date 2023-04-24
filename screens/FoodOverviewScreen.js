@@ -2,15 +2,20 @@ import { View, Text, StyleSheet } from "react-native";
 
 import { MEALS } from "../data/dummy-data";
 
-function FoodOverViewScreen() {
+function FoodOverviewScreen({ route }) {
+
+  const catId = route.params.categoryId;
+
+  const displayedMeals = MEALS.filter();
+
   return (
     <View style={styles.container}>
-      <Text>Overview of Meals Screen</Text>
+      <Text>Overview of Meals Screen - {catId}</Text>
     </View>
   );
 }
 
-export default FoodOverViewScreen;
+export default FoodOverviewScreen;
 
 const styles = StyleSheet.create({
   container: {
