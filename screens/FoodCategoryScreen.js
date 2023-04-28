@@ -1,7 +1,7 @@
 import { FlatList } from "react-native";
 import { CATEGORIES } from "../data/dummy-data";
 import FoodCategoryGrid from "../components/FoodCategoryGrid";
-import MealItem from "../components/MealItem";
+import MealItem from "../components/MealsList/MealItem";
 
 function FoodCategoryScreen({ navigation }) {
   function renderCategoryItem(itemData) {

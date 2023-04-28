@@ -1,25 +1,32 @@
 import { useLayoutEffect } from "react";
-import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  ScrollView,
-  Button,
-} from "react-native";
+import { Text, View, Image, StyleSheet, ScrollView } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import MealDetails from "../components/MealDetails";
 import Subtitle from "../components/MealDetail/Subtitle";
 import List from "../components/MealDetail/List";
 import IconButton from "../components/IconButton";
-
+import { useDispatch, useSelector } from "react-redux";
+// import { FavoritesContext } from "../store/context/favorites-context";
+import { addFavorites, removeFavorites } from "../store/redux/favorites";
 function FoodDetailScreen({ route, navigation }) {
+  // const favoriteMealsCtx = useContext(FavoritesContext);
+  const favoriteFoodIds = useSelector((state) => state.favoriteMeals.ids);
+  const dispatch = useDispatch();
+
   const foodId = route.params.foodId;
 
   const selectedMeal = MEALS.find((food) => food.id === foodId);
 
-  function headerButtonPressHandler() {
-    console.log("Pressed!");
+  const FoodFavorites = favoriteFoodIds.includes(foodId);
+
+  function changeFavoriteStatusHandler() {
+    if (FoodFavorites) {
+      // favoriteMealsCtx.removeFavorite(foodId);
+      dispatch(removeFavorites({ id: foodId }));
+    } else {
+      // favoriteMealsCtx.addFavorite(foodId);
+      dispatch(addFavorites({ id: foodId }));
+    }
   }
 
   useLayoutEffect(() => {
@@ -27,14 +34,14 @@ function FoodDetailScreen({ route, navigation }) {
       headerRight: () => {
         return (
           <IconButton
-            icon="star"
-            color="white"
-            onPress={headerButtonPressHandler}
+            icon={FoodFavorites ? "star" : "star-outline"}
+            color={FoodFavorites ? "yellow" : "white"}
+            onPress={changeFavoriteStatusHandler}
           />
         );
       },
     });
-  }, [navigation, headerButtonPressHandler]);
+  }, [navigation, changeFavoriteStatusHandler]);
   return (
     <ScrollView style={styles.rootContainer}>
       <Image style={styles.image} source={{ uri: selectedMeal.imageUrl }} />
